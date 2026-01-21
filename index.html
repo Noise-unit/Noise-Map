@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>EMA Noise Application Map</title>
+
+    <!-- Link to project files packages etc. -->
+    <link rel="stylesheet" href="style.css" /> <!--project custom css file-->
+    <link rel="icon" type="image/svg+xml" href="icons/favicon.svg">
+    <link rel="icon" href="icons/favicon.ico" sizes="any">
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+    <meta name="theme-color" content="#2563eb">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
+	  <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+  </head>
+
+  <body data-theme="dark">
+    <!--
+      APP LAYOUT (high-level)
+      - Left side: ( Title Bar, icon bar and tool panel)
+      - Right side: map (about 80% of screen)
+      - Map overlays:
+          * Top-right: search + basemap toggle
+          * Bottom-right: inset map
+    -->
+    <div id="app">
+      <!-- LEFT SIDEBAR AREA -->
+      <aside id="sidebar" aria-label="Tools sidebar">
+      <!-- Title Bar -->
+      <div id="sidebar-header" aria-label="Platform header">
+        <div class="sidebar-brand">
+          <img
+            src="icons/logo.png"
+            alt="Platform icon"
+            class="sidebar-logo"
+          />
+          <div class="sidebar-title-wrap">
+            <div class="sidebar-title">EMA Noise Application Map</div>
+            <div class="sidebar-subtitle">Environmental Management Authority</div>
+          </div>
+        </div>
+      </div>
+     <!-- SIDEBAR CONTENT AREA (icon bar + tool panel) -->
+    <div id="sidebar-content">
+        <!-- ICON BAR -->
+        <nav id="icon-bar" aria-label="Tool categories">
+          <!--
+            Each button has:
+            - data-panel: which panel to show in the tool panel
+            - aria-controls: the tool panel container
+            - aria-pressed: toggled by panel.js
+          -->
+
+          <button
+            class="icon-btn"
+            type="button"
+            data-panel="panel-overview"
+            aria-controls="tool-panel"
+            aria-pressed="true"
+            title="Overview"
+          >
+            <span class="icon-glyph" aria-hidden="true">🏠</span>
+            <span class="sr-only">Overview</span>
+          </button>
+
+
+          <button
+            class="icon-btn"
+            type="button"
+            data-panel="panel-layers"
+            aria-controls="tool-panel"
+            aria-pressed="false"
+            title="Layers"
+          >
+            <span class= "icon-glyph" aria-hidden="true">🗂️</span>
+            <span class="sr-only">Layers</span>
+          </button>
+
+          <button
+            class="icon-btn"
+            type="button"
+            data-panel="panel-appdata"
+            aria-controls="tool-panel"
+            aria-pressed="false"
+            title="Application Data"
+          >
+            <span class="icon-glyph" aria-hidden="true">🧾</span>
+            <span class="sr-only">Application Data</span>
+          </button>
+
+          <button
+            class="icon-btn"
+            type="button"
+            data-panel="panel-filters"
+            aria-controls="tool-panel"
+            aria-pressed="false"
+            title="Filters"
+          >
+            <span class= "icon-glyph" aria-hidden="true">🔎</span>
+            <span class="sr-only">Filters</span>
+          </button>
+
+          <button
+            class="icon-btn"
+            type="button"
+            data-panel="panel-draw"
+            aria-controls="tool-panel"
+            aria-pressed="false"
+            title="Draw tools"
+          >
+            <span class= "icon-glyph" aria-hidden="true">✏️</span>
+            <span class="sr-only">Draw tools</span>
+          </button>
+
+          <!--  
+          <button
+            class="icon-btn"
+            type="button"
+            data-panel="panel-analysis"
+            aria-controls="tool-panel"
+            aria-pressed="false"
+            title="Analysis"
+          >
+            <span class= "icon-glyph" aria-hidden="true">📏</span>
+            <span class="sr-only">Analysis</span>
+          </button>
+          -->
+
+          <div class="icon-bar-spacer"></div>
+          <button
+            class="icon-btn"
+            type="button"
+            data-panel="panel-settings"
+            aria-controls="tool-panel"
+            aria-pressed="false"
+            title="Settings"
+          >
+            <span class= "icon-glyph" aria-hidden="true">⚙️</span>
+            <span class="sr-only">Settings</span>
+          </button>
+        </nav>
+
+        <!-- TOOL PANEL -->
+        <section id="tool-panel" aria-label="Tool panel content">
+
+          <!-- Collapse / Expand Tool Panel Button -->
+          <button
+            id="panel-toggle"
+            type="button"
+            aria-label="Collapse tool panel"
+            aria-expanded="true"
+            title="Collapse panel"
+          >
+            ◀
+          </button>
+
+          <!-- ALL panel sections inside this container -->
+          <div id="tool-panel-inner">
+
+          <div id="panel-overview" class="tool-panel-section" hidden>
+            <h2>Overview</h2>
+
+            <div class="overview-card">
+              <h3>Noise Variation Map</h3>
+
+              <p>
+                This web map is designed to support the review of
+                <b>noise variation / noise-related applications</b>. It allows users to:
+              </p>
+
+              <ul class="overview-list">
+                <li>View active application datasets on an interactive map</li>
+                <li>Filter records using date ranges, year, keywords, proximity, and spatial boundaries</li>
+                <li>Display filtered results in a table and export them as a PDF report</li>
+                <li>Draw and upload spatial layers to support screening and review</li>
+              </ul>
+
+              <div class="overview-note">
+                <b>Note:</b> This map contains <u>noise variation data</u>.
+              </div>
+            </div>
+
+            <div class="overview-card">
+              <h3>Data and Accounts</h3>
+
+              <p class="overview-muted">
+                The following information is used for accessing data sources and maintaining the map layers.
+              </p>
+
+              <div class="overview-kv">
+                <div class="kv-row">
+                  <div class="kv-key">DATA:</div>
+                  <div class="kv-val">
+                    <a id="overview-data-folder-link" href="https://drive.google.com/drive/folders/139H73GKeLnDXwqWwc60kmA1UkxYytM7V?usp=drive_link" target="_blank" rel="noopener">
+                      Data Folder
+                    </a>
+                  </div>
+                </div>
+
+                <div class="kv-row">
+                  <div class="kv-key">Noise Variations:</div>
+                  <div class="kv-val">
+                    <a id="overview-noise-variations-link" href="https://docs.google.com/spreadsheets/d/1ro2RikBI665e5VLKk8MPUylEkAEJIhfKeBo46AGimLo/edit?usp=drive_link" target="_blank" rel="noopener">
+                      Event Variations
+                    </a>
+                  </div>
+                </div>
+<!--
+                <div class="kv-row">
+                  <div class="kv-key">Noise Emissions:</div>
+                  <div class="kv-val">
+                    <a id="overview-noise-emissions-link" href="https://docs.google.com/spreadsheets/d/1p61zrvjZTi5lBTAmQ3PWDRpI9J8xPq7_L7vX9oakvp0/edit?usp=drive_link" target="_blank" rel="noopener">
+                      Noise Emitters
+                    </a>
+                  </div>
+                </div>
+-->
+                <div class="kv-row">
+                  <div class="kv-key">Note:</div>
+                  <div class="kv-val">
+                    DO NOT SHARE EXTERNALLY.
+                  </div>
+                </div>
+
+                <div class="kv-row">
+                  <div class="kv-key">Gmail U/N:</div>
+                  <div class="kv-val"><span id="overview-gmail-user"></span></div>
+                </div>
+
+                <div class="kv-row">
+                  <div class="kv-key">Gmail P/Word:</div>
+                  <div class="kv-val"><span id="overview-gmail-pass"></span></div>
+                </div>
+
+                <div class="kv-row">
+                  <div class="kv-key">Github U/N:</div>
+                  <div class="kv-val"><span id="overview-github-user"></span></div>
+                </div>
+
+                <div class="kv-row">
+                  <div class="kv-key">Github P/Word:</div>
+                  <div class="kv-val"><span id="overview-github-pass">Noiseunit3</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+            <div
+              id="panel-layers"
+              class="tool-panel-section"
+              role="region"
+              aria-label="Layers panel"
+              hidden
+            >
+              <h2>Layers</h2>
+
+              <div id="layers-root" class="layers-root"></div>
+            </div>
+
+            <div
+              id="panel-appdata"
+              class="tool-panel-section"
+              role="region"
+              aria-label="Application Data panel"
+              hidden
+            >
+              <h2>Application Data</h2>
+
+              <div id="appdata-root" class="appdata-root"></div>
+            </div>
+
+            <div
+              id="panel-filters"
+              class="tool-panel-section"
+              role="region"
+              aria-label="Filters panel"
+              hidden
+            >
+              <h2>Filters</h2>
+
+              <!-- Filters Root -->
+              <div id="filters-root" class="filters-root"></div>
+            </div>
+
+            <div
+              id="panel-draw"
+              class="tool-panel-section"
+              role="region"
+              aria-label="Draw tools panel"
+              hidden
+            >
+              <h2>Draw Tools</h2>
+
+              <!-- Draw Tools Root -->
+              <div id="drawtools-root" class="drawtools-root"></div>
+            </div>
+
+            <!--
+            <div
+              id="panel-analysis"
+              class="tool-panel-section"
+              role="region"
+              aria-label="Analysis panel"
+              hidden
+            >
+              <h2>Analysis</h2>
+
+              <div id="analysis-root" class="analysis-root"></div>
+            </div> -->
+
+            <div
+              id="panel-settings"
+              class="tool-panel-section"
+              role="region"
+              aria-label="Settings panel"
+              hidden
+            >
+              <h2>Settings</h2>
+
+              <div class="settings-group">
+                <!-- Theme Toggle -->
+                <div class="settings-row">
+                  <div class="settings-text">
+                    <div class="settings-title">Theme</div>
+                    <div class="settings-desc">Switch between Dark Mode and Light Mode.</div>
+                  </div>
+
+                  <label class="toggle-switch" title="Toggle Light/Dark mode">
+                    <input id="theme-toggle" type="checkbox" />
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+
+                <!-- Major Roads Toggle -->
+                <div class="settings-row">
+                  <div class="settings-text">
+                    <div class="settings-title">Major Roads</div>
+                    <div class="settings-desc">
+                      Show or hide the Major Roads overlay.
+                    </div>
+                  </div>
+
+                  <label class="toggle-switch" title="Toggle Major Roads layer">
+                    <input id="roads-toggle" type="checkbox" />
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+
+                <div class="settings-hint"></div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+      </aside>
+
+      <!-- MAP AREA -->
+      <main id="map-area" aria-label="Map area">
+        <!-- Main Leaflet map container -->
+        <div id="map" role="application" aria-label="Main interactive map"></div>
+
+        <!-- TOP-RIGHT OVERLAY CONTROLS -->
+        <div id="map-top-right-controls" aria-label="Map controls (top right)">
+          <!-- Search (location) -->
+          <form id="search-form" autocomplete="off" aria-label="Search for a location">
+            <label for="search-input" class="sr-only">Search location</label>
+            <input
+              id="search-input"
+              type="text"
+              placeholder="Search location..."
+              aria-label="Search location"
+            />
+            <button id="search-btn" type="submit" title="Search">Search</button>
+          </form>
+
+          <!-- Basemap toggle button -->
+          <button id="basemap-toggle" type="button" title="Switch basemap">
+            Basemap
+          </button>
+        </div>
+
+        <!-- BOTTOM-RIGHT INSET / OVERVIEW MAP -->
+        <div id="inset-map-container" aria-label="Inset map container">
+          <div id="inset-map" aria-label="Inset overview map"></div>
+        </div>
+      </main>
+    </div>
+
+<!-- Leaflet JS -->
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
+
+  <!-- MarkerCluster JS -->
+    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>	
+	
+	<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+	<script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+	<script src="https://unpkg.com/@turf/turf@6.5.0/turf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/proj4@2.11.0/dist/proj4.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/proj4leaflet@1.0.2/src/proj4leaflet.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+	<script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/5.0.2/jspdf.plugin.autotable.min.js"></script>
+  <script src="https://unpkg.com/shpjs@latest/dist/shp.min.js"></script>
+  <script src="https://unpkg.com/leaflet-textpath@1.3.0/leaflet.textpath.js"></script>
+  <script src="https://unpkg.com/shp-write@latest/shpwrite.js"></script>
+
+
+
+
+    <!-- Project Custom scripts -->
+    <script src="scripts/main.js"></script>
+    <script src="scripts/inset.js"></script>
+    <script src="scripts/panel.js"></script>
+    <script src="scripts/toolpanelToggle.js"></script>
+    <script src="scripts/theme.js"></script>
+    <script src="scripts/geocoder.js"></script>
+    <script src="scripts/repoLayers.js"></script>
+    <script src="scripts/layerStyle.js"></script>
+    <script src="scripts/overview.js"></script> 
+    <script src="scripts/layers.js"></script>
+    <script src="scripts/appdata.js"></script>
+    <script src="scripts/drawTools.js"></script>
+    <script src="scripts/filtersPanel.js"></script>  
+    <script src="scripts/analysisPanel.js"></script>  
+
+
+
+  </body>
+</html>

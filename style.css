@@ -1,0 +1,2040 @@
+/* =========================================================
+   EMA Noise Application Map - Layout Styles
+   - Goal: match the sample UI layout
+   - Light/Dark toggle will come later (we'll convert to CSS variables)
+   ========================================================= */
+
+/* ===== THEME TOKENS ===== */
+:root {
+  --bg: #0b1220;
+  --text: #e5e7eb;
+  --panel-bg: #0a1020;
+  --surface: rgba(255, 255, 255, 0.035);
+  --border: rgba(255, 255, 255, 0.10);
+  --border-weak: rgba(255, 255, 255, 0.08);
+  --control-bg: rgba(10, 16, 32, 0.78);
+  --control-bg-2: rgba(255, 255, 255, 0.06);
+  --muted-text: rgba(229, 231, 235, 0.8);
+  --accent: #2563eb;
+  --shadow: rgba(0, 0, 0, 0.35);
+  --iconbar-width: clamp(56px, 2vw, 80px);
+  --sidebar-open-width: clamp(260px, 20vw, 420px);
+
+  --sidebar-header-bg: rgba(10, 16, 32, 0.92);
+  --iconbar-bg: rgba(27, 38, 59, 0.95);
+  --iconbar-border: var(--border-weak);
+
+  --iconbtn-bg: rgba(255, 255, 255, 0.04);
+  --iconbtn-bg-hover: rgba(255, 255, 255, 0.08);
+
+  --panel-border: var(--border);
+  --input-bg: var(--control-bg);
+  --btn-bg: var(--control-bg-2);
+  --btn-bg-hover: rgba(255, 255, 255, 0.09);
+}
+
+/* Light mode theme */
+body[data-theme="light"] {
+  --bg: #f5f7fb;
+  --text: #111827;
+  --panel-bg: #ffffff;
+  --surface: rgba(17, 24, 39, 0.04);
+  --border: rgba(17, 24, 39, 0.12);
+  --border-weak: rgba(17, 24, 39, 0.08);
+  --control-bg: rgba(255, 255, 255, 0.85);
+  --control-bg-2: rgba(17, 24, 39, 0.06);
+  --muted-text: rgba(17, 24, 39, 0.75);
+  --accent: #2563eb;
+  --shadow: rgba(0, 0, 0, 0.18);
+  --sidebar-header-bg: rgba(255, 255, 255, 0.92);
+  --iconbar-bg: rgba(255, 255, 255, 0.95);
+  --iconbar-border: var(--border-weak);
+
+  --iconbtn-bg: rgba(0, 0, 0, 0.04);
+  --iconbtn-bg-hover: rgba(0, 0, 0, 0.08);
+
+  --panel-border: var(--border);
+  --input-bg: var(--control-bg);
+  --btn-bg: var(--control-bg-2);
+  --btn-bg-hover: rgba(0, 0, 0, 0.06);  
+}
+
+body[data-theme="light"] #sidebar-header {
+  backdrop-filter: none;
+}
+
+body[data-theme="light"] .icon-glyph {
+  text-shadow:
+    -1px -1px 0 rgba(53, 52, 52, 0.35),
+     1px -1px 0 rgba(53, 52, 52, 0.35),
+    -1px  1px 0 rgba(53, 52, 52, 0.35),
+     1px  1px 0 rgba(53, 52, 52, 0.35);
+}
+
+/* Native dropdown hover Dark/Light mode*/
+
+body[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+body[data-theme="light"] {
+  color-scheme: light;
+}
+
+/* Ensure the dropdown itself follows theme */
+select,
+.drawtools-select {
+  background: var(--input-bg) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--panel-border) !important;
+}
+
+/* Try to force option readability (some browsers ignore these) */
+select option,
+.drawtools-select option {
+  background: var(--panel-bg) !important;
+  color: var(--text) !important;
+}
+
+/* Draw Tools Drop down themes*/
+
+select,
+.drawtools-select {
+  background: var(--input-bg) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--panel-border) !important;
+}
+
+/* Dropdown options once it isn't ignored by the browser*/
+select option,
+.drawtools-select option {
+  background: var(--panel-bg);
+  color: var(--text);
+}
+
+/* Focus ring */
+select:focus,
+.drawtools-select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.35);
+}
+
+/* Layers Panel  */
+/* Group heading e.g. "Noise Zones" */
+#panel-layers .layer-section > h3 {
+  font-size: 14px; 
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  margin: 14px 0 10px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border-weak);
+  padding-bottom: 6px;
+}
+
+/* Layer name button e.g. "Proposed Noise Zones" */
+#panel-layers .layer-name-btn {
+  font-size: 12.5px;      
+  font-weight: 600;
+  letter-spacing: 0.15px;
+  color: var(--text);
+}
+
+/* Reduce spacing under layer title for tighter cards */
+#panel-layers .layer-name-btn {
+  padding: 6px 8px;
+}
+
+/* AppData Select / Dropdown UI */
+
+.appdata-root button,
+.appdata-root input {
+  font-family: inherit;
+}
+
+.appdata-root select {
+  width: 100%;
+  padding: 10px 10px;
+  border-radius: 12px;
+  
+  background: var(--control-bg);
+  color: var(--text);
+
+  border: 1px solid var(--border);
+  outline: none;
+  font-size: 13px;
+  font-family: inherit;
+
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.appdata-root select:focus {
+  border-color: color-mix(in srgb, var(--accent) 50%, var(--border));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+.appdata-root option {
+  background: var(--panel-bg);
+  color: var(--text);
+}
+
+/* Leaflet Popup Theme Support */
+
+.leaflet-popup-content-wrapper {
+  background: var(--panel-bg) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border-weak) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 12px 28px var(--shadow) !important;
+}
+
+.leaflet-popup-tip {
+  background: var(--panel-bg) !important;
+}
+
+.leaflet-popup-content {
+  margin: 12px 14px !important;
+  color: var(--text) !important;
+}
+
+/* Popup "table" formatting */
+.leaflet-popup-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  color: var(--text) !important;
+}
+
+.leaflet-popup-content td {
+  padding: 6px 8px;
+  vertical-align: top;
+  border-top: 1px solid var(--border-weak);
+}
+
+.leaflet-popup-content td.key {
+  width: 40%;
+  color: var(--muted-text) !important;
+}
+
+.leaflet-popup-content td.val {
+  width: 60%;
+  word-break: break-word;
+  color: var(--text) !important;
+}
+
+/* Popup title */
+.leaflet-popup-content .popup-title {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+  color: var(--text);
+}
+
+/* ---------- Reset / Base ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow: hidden; 
+}
+
+/* Screen-reader only text */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- App Shell ---------- */
+#app {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+}
+
+/* ---------- Sidebar ---------- */
+#sidebar {
+  width: var(--sidebar-open-width);
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  background: var(--panel-bg);
+  border-right: 1px solid var(--border-weak);
+
+  overflow: visible;
+  position: relative;
+  z-index: 2000;
+}
+
+/* ---------- Sidebar Header ---------- */
+#sidebar-header {
+  padding: 14px 14px 12px 14px;
+  border-bottom: 1px solid var(--border-weak);
+  background: var(--sidebar-header-bg);
+  backdrop-filter: blur(10px);
+  position: relative;
+  z-index: 3000;
+}
+
+body.toolpanel-collapsed #sidebar-header {
+  width: var(--sidebar-open-width);
+  align-self: flex-start;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sidebar-logo {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sidebar-title-wrap {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+
+.sidebar-title {
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.2px;
+}
+
+.sidebar-subtitle {
+  font-size: 12px;
+  color: var(--muted-text);
+  margin-top: 2px;
+}
+
+/* Overview Panel*/
+
+.overview-card {
+  border: 1px solid var(--border-weak);
+  background: var(--surface);
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 10px 24px var(--shadow);
+  margin-bottom: 12px;
+}
+
+.overview-card h3 {
+  font-size: 14px;
+  margin: 0 0 8px 0;
+  font-weight: 800;
+}
+
+.overview-list {
+  margin: 8px 0 10px 18px;
+  padding: 0;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.overview-note {
+  font-size: 12px;
+  padding: 10px;
+  border-radius: 12px;
+  border: 1px solid var(--border-weak);
+  background: var(--panel-bg);
+  margin-top: 10px;
+}
+
+.overview-muted {
+  font-size: 12px;
+  color: var(--muted-text);
+  line-height: 1.35;
+  margin-top: 6px;
+}
+
+.overview-kv {
+  margin-top: 10px;
+  border: 1px solid var(--border-weak);
+  border-radius: 12px;
+  background: var(--panel-bg);
+  padding: 10px;
+}
+
+.kv-row {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 10px;
+  padding: 6px 0;
+  border-bottom: 1px dashed var(--border-weak);
+}
+
+.kv-row:last-child {
+  border-bottom: none;
+}
+
+.kv-key {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.kv-val {
+  font-size: 12px;
+  color: var(--text);
+  word-break: break-word;
+}
+
+@media (max-width: 900px) {
+  .kv-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- Sidebar Content Area ---------- */
+
+#sidebar-content {
+  flex: 1; 
+  display: flex; 
+  min-height: 0;
+  overflow: visible;
+}
+
+/* Icon bar */
+#icon-bar {
+  width: var(--iconbar-width);
+  height: 100%;
+  padding: 12px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  background: var(--iconbar-bg);
+  border-right: 1px solid var(--iconbar-border);
+}
+
+/* Icon buttons */
+.icon-btn {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  background: var(--iconbtn-bg);
+  color: var(--text);
+  cursor: pointer;
+
+  display: grid;
+  place-items: center;
+
+  transition: transform 0.12s ease, background 0.12s ease, border 0.12s ease;
+}
+
+.icon-btn:hover {
+  transform: translateY(-1px);
+  background: var(--iconbtn-bg-hover);
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+.icon-btn[aria-pressed="true"] {
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+.icon-bar-spacer {
+  flex: 1;
+}
+
+.appdata-placeholder {
+  margin-top: 14px;
+  padding: 12px;
+  border-radius: 14px;
+  background: var(--control-bg-2);
+  border: 1px solid var(--border-weak);
+}
+
+.appdata-placeholder-title {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.appdata-placeholder-text {
+  font-size: 12px;
+  color: var(--muted-text);
+  line-height: 1.35;
+}
+
+/* Tool panel */
+#tool-panel {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  overflow: visible;
+
+  padding: 0;
+
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.03),
+    rgba(255, 255, 255, 0.01)
+  );
+}
+
+#tool-panel-inner {
+  height: 100%;
+  overflow: auto; 
+  padding: 16px;
+  padding-right: 22px;
+}
+
+.tool-panel-section h2 {
+  margin: 6px 0 10px 0;
+  font-size: 16px;
+  letter-spacing: 0.2px;
+}
+
+.tool-panel-section p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--muted-text);
+}
+
+/* ensure hidden panels always disappear */
+.tool-panel-section[hidden] {
+  display: none !important;
+}
+
+/* Default "sidecard" */
+.tool-panel-section {
+  padding: 12px;
+  border-radius: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border-weak);
+}
+
+/* spacing between panels where multiple are displayed */
+.tool-panel-section + .tool-panel-section {
+  margin-top: 12px;
+}
+
+/* ---------- Tool Panel Collapse Button ---------- */
+#panel-toggle {
+  position: absolute;
+  right: -25px; 
+  top: 50%;
+  transform: translateY(-50%);
+
+  width: 28px;
+  height: 42px;
+
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--control-bg);
+
+  color: var(--text);
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+
+  display: grid;
+  place-items: center;
+
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+  z-index: 9000;
+}
+
+#panel-toggle:hover {
+  background: var(--control-bg-2);
+}
+
+/* ---------- Collapse Tool Panel ---------- */
+body.toolpanel-collapsed #tool-panel {
+  flex: 0 0 0px;
+  width: 0px;
+  min-width: 0px;
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+body.toolpanel-collapsed .sidebar-subtitle {
+  display: none;
+}
+
+body.toolpanel-collapsed #tool-panel-inner {
+  display: none;
+}
+
+/* Keeps the toggle visible even when collapsed */
+body.toolpanel-collapsed #panel-toggle {
+  right: -25px;
+}
+
+body.toolpanel-collapsed #sidebar {
+  width: var(--iconbar-width);
+  min-width: var(--iconbar-width);
+  max-width: var(--iconbar-width);
+}
+
+/* Layer name becomes clickable button for Style */
+.layer-name-btn {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--text);
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.layer-name-btn:hover {
+  text-decoration: underline;
+}
+
+/* Settings Panel UI  */
+.settings-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  padding: 12px;
+  border-radius: 14px;
+  background: var(--control-bg-2);
+  border: 1px solid var(--border-weak);
+}
+
+.settings-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.settings-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.settings-desc {
+  font-size: 12px;
+  color: var(--muted-text);
+}
+
+.settings-hint {
+  font-size: 12px;
+  color: var(--muted-text);
+  padding-left: 2px;
+}
+
+/* Toggle switch */
+.toggle-switch {
+  position: relative;
+  width: 46px;
+  height: 26px;
+  flex: 0 0 auto;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  inset: 0;
+  cursor: pointer;
+
+  background: rgba(255, 255, 255, 0.10);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+
+  transition: background 0.15s ease, border 0.15s ease;
+}
+
+.toggle-slider::before {
+  content: "";
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  top: 50%;
+  transform: translateY(-50%);
+
+  background: var(--text);
+  border-radius: 999px;
+
+  transition: transform 0.15s ease;
+}
+
+.toggle-switch input:checked + .toggle-slider {
+  background: color-mix(in srgb, var(--accent) 35%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+}
+
+.toggle-switch input:checked + .toggle-slider::before {
+  transform: translate(20px, -50%);
+}
+
+/* ---------- Layers Panel: Remove (X) button ---------- */
+
+.layer-card-toprow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.layer-remove-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 10px;
+  border: 1px solid var(--border-weak);
+  background: var(--control-bg-2);
+  color: var(--muted-text);
+  cursor: pointer;
+  flex: 0 0 auto;
+
+  display: grid;
+  place-items: center;
+
+  transition: transform 0.12s ease, background 0.12s ease, border 0.12s ease;
+}
+
+.layer-remove-btn:hover {
+  transform: translateY(-1px);
+  border-color: var(--border);
+  background: rgba(239, 68, 68, 0.18); 
+  color: var(--text);
+}
+
+/* ------------ Inset Map ----------- */
+.inset-viewport-rect {
+  pointer-events: none;
+}
+
+/* ---------- Map Area ---------- */
+#map-area {
+  flex: 1;
+  position: relative; 
+  height: 100%;
+  background: #06101e;
+}
+
+#map {
+  height: 100%;
+  width: 100%;
+  background: #06101e;
+}
+
+/* ---------- Top-right overlay controls ---------- */
+#map-top-right-controls {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 500;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  background: var(--control-bg);
+  border: 1px solid var(--border);
+}
+
+/* Search form */
+#search-form {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 8px;
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+}
+
+/* --- Search dropdown suggestions --- */
+#search-form {
+  position: relative; /* IMPORTANT: lets the dropdown position correctly */
+}
+
+/* The dropdown box under search bar */
+.search-suggestions {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+
+  max-height: 260px;
+  overflow-y: auto;
+
+  background: var(--control-bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+
+  padding: 6px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+
+  z-index: 9999;
+}
+
+/* Each suggestion line */
+.search-suggestions button {
+  width: 100%;
+  text-align: left;
+
+  background: transparent;
+  border: none;
+  color: var(--text);
+
+  padding: 10px 10px;
+  border-radius: 10px;
+
+  cursor: pointer;
+  font-size: 13px;
+}
+
+/* Hover highlight */
+.search-suggestions button:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.search-suggestions .subtext {
+  display: block;
+  font-size: 12px;
+  opacity: 0.7;
+  margin-top: 2px;
+}
+
+#search-input {
+  width: 240px;
+  max-width: 40vw;
+  outline: none;
+  background: var(--control-bg-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 10px 12px;
+  border-radius: 12px;
+  font-size: 13px;
+}
+
+#search-input::placeholder {
+  color: rgba(229, 231, 235, 0.6);
+}
+
+#search-btn,
+#basemap-toggle {
+  background: var(--control-bg-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 10px 12px;
+  border-radius: 12px;
+  font-size: 13px;
+
+  cursor: pointer;
+  transition: transform 0.12s ease, background 0.12s ease, border 0.12s ease;
+}
+
+#search-btn:hover,
+#basemap-toggle:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+/* ---------- Inset map ---------- */
+#inset-map-container {
+  position: absolute;
+  right: 14px;
+  bottom: 30px;
+  z-index: 500;
+
+  width: 240px;
+  height: 180px;
+
+  border-radius: 18px;
+  overflow: hidden;
+
+  background: rgba(10, 16, 32, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(10px);
+}
+
+#inset-map {
+  width: 100%;
+  height: 100%;
+}
+
+/* ---------- Leaflet map tweaks ---------- */
+.leaflet-control-container .leaflet-control {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* tone down of attribution */
+.leaflet-control-attribution {
+  background: rgba(10, 16, 32, 0.55) !important;
+  color: rgba(229, 231, 235, 0.75) !important;
+  border-radius: 10px !important;
+  margin: 0 8px 8px 0 !important;
+}
+
+/* ---------- Responsive adjustments ---------- */
+@media (max-width: 900px) {
+  #sidebar {
+    min-width: 220px;
+  }
+
+  #search-input {
+    width: 180px;
+  }
+
+  #inset-map-container {
+    width: 240px;
+    height: 150px;
+  }
+}
+
+@media (max-width: 700px) {
+  #sidebar {
+    width: 300px;
+    max-width: 75vw;
+  }
+
+  #inset-map-container {
+    display: none;
+  }
+}
+
+/*  --- Application Data Panel (Dataset toggles + styling) ----- */
+
+.appdata-root {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.appdata-help {
+  color: var(--muted-text);
+  font-size: 0.92rem;
+  line-height: 1.35;
+}
+
+.appdata-datasets {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dataset-card {
+  background: var(--surface);
+  border: 1px solid var(--border-weak);
+  border-radius: 14px;
+  padding: 12px;
+  box-shadow: 0 10px 26px var(--shadow);
+}
+
+.dataset-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.dataset-title {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.dataset-title strong {
+  font-size: 0.98rem;
+}
+
+.dataset-meta {
+  color: var(--muted-text);
+  font-size: 0.85rem;
+}
+
+.dataset-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dataset-status {
+  font-size: 0.85rem;
+  color: var(--muted-text);
+}
+
+.dataset-status.is-loading {
+  color: var(--accent);
+}
+
+.dataset-status.is-error {
+  color: #ef4444;
+}
+
+.dataset-controls {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.dataset-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.dataset-row label {
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+.dataset-row select,
+.dataset-row button {
+  background: var(--control-bg) !important; 
+  border: 1px solid var(--border) !important;
+  color: var(--text) !important;
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-size: 0.9rem;
+  font-family: inherit;
+}
+
+.dataset-row select option {
+  background: var(--panel-bg) !important;
+  color: var(--text) !important;
+}
+
+
+.dataset-row button {
+  cursor: pointer;
+}
+
+.dataset-row button:hover {
+  border-color: var(--border);
+}
+
+/* Layers Panel UI */
+
+.layers-root {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.layer-section {
+  background: var(--surface);
+  border: 1px solid var(--border-weak);
+  border-radius: 14px;
+  padding: 12px;
+}
+
+.layer-section h3 {
+  margin: 0 0 10px 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.layer-section p {
+  margin: 0 0 10px 0;
+  font-size: 12px;
+  color: var(--muted-text);
+}
+
+.layer-upload-row {
+  display: grid;
+  gap: 10px;
+}
+
+.layer-upload-row label {
+  font-size: 12px;
+  color: var(--muted-text);
+}
+
+.layer-upload-row input[type="file"],
+.layer-upload-row select {
+  width: 100%;
+  padding: 10px 10px;
+  border-radius: 12px;
+  background: var(--control-bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 13px;
+}
+
+.layer-upload-row button {
+  width: 100%;
+  padding: 10px 10px;
+  border-radius: 12px;
+  background: var(--control-bg-2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.layer-upload-row button:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.09);
+}
+
+.layer-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.layer-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+
+  padding: 10px;
+  border-radius: 12px;
+  background: var(--control-bg-2);
+  border: 1px solid var(--border-weak);
+}
+
+.layer-item-title {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.layer-item-title strong {
+  font-size: 13px;
+  color: var(--text);
+}
+
+.layer-item-title span {
+  font-size: 12px;
+  color: var(--muted-text);
+}
+
+.layer-item-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.layer-mini-btn {
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--control-bg);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.layer-mini-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.layers-root select option {
+  background: var(--panel-bg) !important;
+  color: var(--text) !important;
+}
+
+/* Small toggle (reuse the settings toggle aesthetic) */
+.mini-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mini-toggle input {
+  width: 42px;
+  height: 24px;
+  appearance: none;
+  background: var(--control-bg-2);
+  border: 1px solid var(--border-weak);
+  border-radius: 999px;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+}
+
+.mini-toggle input::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  transform: translateY(-50%);
+  background: var(--text);
+  opacity: 0.88;
+  transition: left 0.15s ease;
+}
+
+.mini-toggle input:checked {
+  background: rgba(37, 99, 235, 0.35);
+  border-color: rgba(37, 99, 235, 0.55);
+}
+
+.mini-toggle input:checked::after {
+  left: 20px;
+}
+
+/* ----- Marker styling (DivIcon) ----- */
+
+.ema-marker {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+}
+
+body[data-theme="light"] .ema-marker {
+  border-color: rgba(17, 24, 39, 0.9);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.22);
+}
+
+/* Popup table */
+.ema-popup {
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background: transparent !important;
+  color: var(--text) !important;
+}
+
+.ema-popup h3 {
+  margin: 0 0 8px;
+  font-size: 1rem;
+}
+
+.ema-popup table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.86rem;
+}
+
+.ema-popup td {
+  padding: 6px 8px;
+  vertical-align: top;
+  border-top: 1px solid var(--border-weak);
+}
+
+.ema-popup td.key {
+  width: 40%;
+  color: var(--muted-text);
+}
+
+.ema-popup td.val {
+  width: 60%;
+  word-break: break-word;
+}
+
+/* -----------------------------------
+   Roads label styling (like Goggle Maps)
+----------------------------------- */
+.road-label.leaflet-tooltip {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+
+  padding: 0 !important;
+  margin: 0 !important;
+
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+
+  color: rgba(255, 255, 255, 0.92) !important;
+
+  /* Strong halo */
+  text-shadow:
+    0 0 2px rgba(0,0,0,0.95),
+    0 0 4px rgba(0,0,0,0.90),
+    1px 0 0 rgba(0,0,0,0.85),
+    -1px 0 0 rgba(0,0,0,0.85),
+    0 1px 0 rgba(0,0,0,0.85),
+    0 -1px 0 rgba(0,0,0,0.85);
+}
+
+/* Light theme variant (dark text with white halo) */
+body[data-theme="light"] .road-label.leaflet-tooltip {
+  color: rgba(17, 24, 39, 0.95) !important;
+  text-shadow:
+    0 0 2px rgba(255,255,255,0.95),
+    0 0 4px rgba(255,255,255,0.90),
+    1px 0 0 rgba(255,255,255,0.85),
+    -1px 0 0 rgba(255,255,255,0.85),
+    0 1px 0 rgba(255,255,255,0.85),
+    0 -1px 0 rgba(255,255,255,0.85);
+}
+
+/* Curved road labels */
+
+.road-text-label {
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+/* Dark theme (white label with dark halo) */
+body[data-theme="dark"] .road-text-label {
+  fill: rgba(255, 255, 255, 0.92);
+  stroke: rgba(0, 0, 0, 0.85);
+  stroke-width: 3px;
+  paint-order: stroke;
+}
+
+/* Light theme (dark label with white halo) */
+body[data-theme="light"] .road-text-label {
+  fill: rgba(17, 24, 39, 0.95);
+  stroke: rgba(255, 255, 255, 0.95);
+  stroke-width: 3px;
+  paint-order: stroke;
+}
+
+/* ===== Layers Panel - stacked layout ===== */
+
+.layer-item-card {
+  background: var(--surface);
+  border: 1px solid var(--border-weak);
+  border-radius: 14px;
+  padding: 12px;
+  box-shadow: 0 10px 26px var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.layer-name-btn {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  font-size: 0.98rem;
+  font-weight: 700;
+  padding: 6px 4px;
+  cursor: pointer;
+}
+
+.layer-name-btn:hover {
+  opacity: 0.9;
+  text-decoration: underline;
+}
+
+.layer-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.layer-opacity-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.layer-opacity-label {
+  font-size: 12px;
+  color: var(--muted-text);
+}
+
+.layer-opacity-row input[type="range"] {
+  width: 100%;
+}
+
+.layer-meta-row {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 2px;
+}
+
+.layer-meta-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 10px;
+  background: var(--control-bg-2);
+  border: 1px solid var(--border-weak);
+  color: var(--text);
+  text-decoration: none;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.layer-meta-link:hover {
+  border-color: var(--border);
+}
+
+.dataset-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+/* ---------------------------------------------------- */
+/* Draw Tools Panel Styles */
+/* ---------------------------------------------------- */
+
+.drawtools-root {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.drawtools-section {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.drawtools-heading {
+  margin: 0 0 10px 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.drawtools-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.drawtools-btn {
+  width: 100%;
+  border: 1px solid var(--panel-border);
+  background: var(--btn-bg);
+  color: var(--text);
+  border-radius: 10px;
+  padding: 10px 10px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: transform 0.05s ease, background 0.2s ease;
+}
+
+.drawtools-btn:hover {
+  background: var(--btn-bg-hover);
+}
+
+.drawtools-btn:active {
+  transform: scale(0.99);
+}
+
+.drawtools-btn.primary {
+  background: var(--accent);
+  color: #fff;
+  border-color: transparent;
+}
+
+.drawtools-btn.primary:hover {
+  filter: brightness(1.05);
+}
+
+.drawtools-btn.secondary {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.drawtools-btn.danger {
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.35);
+  color: var(--text);
+}
+
+.drawtools-btn.danger:hover {
+  background: rgba(239, 68, 68, 0.18);
+}
+
+.drawtools-btn.active {
+  outline: 2px solid rgba(37, 99, 235, 0.45);
+}
+
+.drawtools-edit-row {
+  margin-top: 10px;
+}
+
+.drawtools-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.drawtools-empty {
+  font-size: 12px;
+  color: var(--muted-text);
+}
+
+/* Small download UI */
+.drawtools-download {
+  display: flex;
+  flex-direction: column;
+}
+
+.drawtools-label {
+  font-size: 12px;
+  color: var(--muted-text);
+  margin-bottom: 6px;
+}
+
+.drawtools-select {
+  width: 100%;
+  border: 1px solid var(--panel-border);
+  background: var(--input-bg);
+  color: var(--text);
+  border-radius: 10px;
+  padding: 8px;
+  font-size: 13px;
+}
+
+.drawtools-hint {
+  margin-top: 10px;
+  font-size: 11px;
+  color: var(--muted-text);
+}
+
+/* ---------------------------------------------------- */
+/* Modals (name + style dialog bubble) */
+/* ---------------------------------------------------- */
+
+.ema-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: grid;
+  place-items: center;
+  z-index: 9999;
+}
+
+.ema-modal {
+  width: min(360px, 92vw);
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+}
+
+.ema-modal-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+
+.ema-modal-body {
+  margin-bottom: 12px;
+}
+
+.ema-modal-input {
+  width: 100%;
+  border: 1px solid var(--panel-border);
+  background: var(--input-bg);
+  color: var(--text);
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 13px;
+}
+
+.ema-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.ema-btn {
+  border: 1px solid var(--panel-border);
+  background: var(--btn-bg);
+  color: var(--text);
+  border-radius: 10px;
+  padding: 8px 10px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.ema-btn.primary {
+  background: var(--accent);
+  color: #fff;
+  border-color: transparent;
+}
+
+.ema-btn.ghost {
+  background: transparent;
+}
+
+/* Style grid in modal */
+.ema-style-grid {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 10px;
+  align-items: center;
+  font-size: 13px;
+  color: var(--text);
+}
+
+/* FILTERS PANEL */
+
+.filters-root {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.filters-help {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 12px;
+  padding: 10px;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.filters-empty {
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px dashed rgba(255,255,255,0.18);
+  color: rgba(255,255,255,0.75);
+  font-size: 13px;
+}
+
+.filter-dataset-details {
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.04);
+  overflow: hidden;
+}
+
+.filter-dataset-summary {
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  font-size: 13px;
+  list-style: none;
+}
+
+.filter-dataset-summary::-webkit-details-marker {
+  display: none;
+}
+
+.filter-dataset-summary .name {
+  font-weight: 800;
+}
+
+.filter-dataset-summary .meta {
+  opacity: 0.7;
+  font-size: 12px;
+}
+
+.filter-dataset-card {
+  padding: 12px;
+}
+
+.filter-block {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.filter-subtitle {
+  font-weight: 800;
+  font-size: 12px;
+  opacity: 0.95;
+  margin-top: 4px;
+}
+
+.filter-row {
+  display: flex;
+  flex-direction: column; 
+  gap: 6px;
+  font-size: 12px;
+}
+
+.filter-row label {
+  opacity: 0.85;
+  font-weight: 700;
+}
+
+.filter-row input,
+.filter-row select {
+  width: 100%;
+  padding: 10px 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(0,0,0,0.25);
+  color: inherit;
+  font-size: clamp(12px, 1.35vw, 14px); 
+}
+
+.filter-divider {
+  border: 0;
+  border-top: 1px solid rgba(255,255,255,0.10);
+  margin: 6px 0;
+}
+
+/* Buttons row */
+.filter-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.filter-actions .results-btn {
+  grid-column: 1 / span 2;
+}
+
+/* Keyword match mode */
+.inline-radio {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* Checklist multi-select */
+.checklist-box {
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 12px;
+  background: rgba(0,0,0,0.25);
+  padding: 8px;
+  max-height: 170px;
+  overflow: auto;
+}
+
+.checklist-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 2px;
+  font-size: 12px;
+}
+
+.checklist-item input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+}
+
+.filter-status {
+  font-size: 12px;
+  opacity: 0.85;
+}
+
+/* Tiny radios */
+.mini-radio {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+/* RESULTS TABLE MODAL */
+
+.ema-results-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 18px;
+}
+
+.ema-results-modal {
+  width: min(1100px, 96vw);
+  height: min(700px, 92vh);
+  background: #0b1220;
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 18px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.ema-results-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+
+.ema-results-title .t1 {
+  font-weight: 800;
+  font-size: 14px;
+}
+
+.ema-results-title .t2 {
+  font-size: 12px;
+  opacity: 0.8;
+  margin-top: 2px;
+}
+
+.ema-results-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.ema-results-body {
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 100%;
+}
+
+.ema-results-count {
+  font-size: 12px;
+  opacity: 0.85;
+}
+
+
+.ema-results-tablewrap {
+  flex: 1;
+  overflow: auto;
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.02);
+}
+
+
+.ema-results-table {
+  width: max-content;
+  min-width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.ema-results-table th {
+  position: sticky;
+  top: 0;
+  background: rgba(255,255,255,0.06);
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+  text-align: left;
+  padding: 8px;
+  white-space: nowrap;
+  z-index: 2;
+}
+
+.ema-results-table td {
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  padding: 7px 8px;
+  vertical-align: top;
+  white-space: nowrap; 
+}
+
+.ema-results-table tr:hover td {
+  background: rgba(255,255,255,0.04);
+}
+
+/* =========================================================
+   FILTER RESULTS MODAL (Light/Dark + Scroll + Table)
+   ========================================================= */
+
+.ema-results-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  padding: 16px;
+}
+
+.ema-results-summarybox {
+  border: 1px solid var(--panel-border);
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+
+.ema-results-summarytitle {
+  font-weight: 800;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.ema-results-summarytext {
+  font-size: 12px;
+  color: var(--muted-text);
+  line-height: 1.35;
+}
+
+.ema-results-modal {
+  width: min(1400px, 96vw);
+  max-height: min(92vh, 880px);
+  display: flex;
+  flex-direction: column;
+  border-radius: 16px;
+  background: var(--panel-bg);
+  color: var(--text);
+  border: 1px solid var(--panel-border);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+}
+
+.ema-results-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 14px 14px;
+  border-bottom: 1px solid var(--panel-border);
+  background: var(--sidebar-header-bg);
+}
+
+.ema-results-title .t1 {
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.ema-results-title .t2 {
+  font-size: 12px;
+  color: var(--muted-text);
+  line-height: 1.3;
+}
+
+.ema-results-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.ema-results-body {
+  padding: 12px 14px 14px 14px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ema-results-count {
+  font-size: 12px;
+  color: var(--muted-text);
+}
+
+.ema-scroll-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.ema-scroll-hint {
+  flex: 1;
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted-text);
+}
+
+/* BOTH direction scrolling */
+.ema-results-tablewrap {
+  width: 100%;
+  overflow: auto;
+  max-height: min(60vh, 560px);
+  border: 1px solid var(--panel-border);
+  border-radius: 12px;
+  background: var(--panel-bg);
+}
+
+/* Force visible scrollbar styling */
+.ema-results-tablewrap {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(120, 120, 120, 0.6) transparent;
+}
+
+.ema-results-tablewrap::-webkit-scrollbar {
+  height: 12px;
+  width: 12px;
+}
+
+.ema-results-tablewrap::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.ema-results-tablewrap::-webkit-scrollbar-thumb {
+  background: rgba(120, 120, 120, 0.55);
+  border-radius: 10px;
+}
+
+.ema-results-tablewrap::-webkit-scrollbar-thumb:hover {
+  background: rgba(120, 120, 120, 0.75);
+}
+
+/* Table */
+.ema-results-table {
+  border-collapse: collapse;
+  width: max-content; 
+  min-width: 100%;
+  font-size: 12px;
+}
+
+.ema-results-table th,
+.ema-results-table td {
+  border-bottom: 1px solid var(--panel-border);
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+  white-space: nowrap; 
+}
+
+.ema-results-table th {
+  position: sticky;
+  top: 0;
+  background: var(--surface);
+  z-index: 2;
+  font-weight: 700;
+}
+
+.ema-results-table tr:hover td {
+  background: rgba(59, 130, 246, 0.08);
+}
