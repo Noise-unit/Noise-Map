@@ -1,7 +1,5 @@
 /* =========================================================
    EMA Noise Application Map - Layout Styles
-   - Goal: match the sample UI layout
-   - Light/Dark toggle will come later (we'll convert to CSS variables)
    ========================================================= */
 
 /* ===== THEME TOKENS ===== */
@@ -2172,4 +2170,5 @@ body[data-theme="dark"] {
   padding: var(--card-pad);
   border-width: var(--border-w);
 }
+
 
