@@ -291,7 +291,7 @@ body {
 
 /* ---------- Sidebar Header ---------- */
 #sidebar-header {
-  padding: 14px 14px 12px 14px;
+  padding: var(--panel-pad);
   border-bottom: 1px solid var(--border-weak);
   background: var(--sidebar-header-bg);
   backdrop-filter: blur(10px);
@@ -328,13 +328,14 @@ body.toolpanel-collapsed #sidebar-header {
 }
 
 .sidebar-title {
-  font-weight: 700;
-  font-size: 14px;
-  letter-spacing: 0.2px;
+  font-size: clamp(14px, 1.2vw, 18px);
+  font-weight: 900;
+  color: var(--heading);
+  line-height: 1.1;
 }
 
 .sidebar-subtitle {
-  font-size: 12px;
+  font-size: clamp(11px, 0.95vw, 13px);
   color: var(--muted-text);
   margin-top: 2px;
 }
@@ -515,9 +516,46 @@ body.toolpanel-collapsed #sidebar-header {
 }
 
 .tool-panel-section h2 {
-  margin: 6px 0 10px 0;
-  font-size: 16px;
+  margin: 4px 0 10px 0;
+  font-size: var(--fs-h2);
+  font-weight: 900;
   letter-spacing: 0.2px;
+  color: var(--heading);
+  position: relative;
+  padding-left: 12px;
+}
+
+.tool-panel-section h2::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 3px;
+  bottom: 3px;
+  width: 4px;
+  border-radius: 999px;
+  background: var(--heading-accent);
+}
+
+.tool-panel-section h2::after {
+  content: "";
+  display: block;
+  margin-top: 6px;
+  height: 2px;
+  width: min(180px, 55%);
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    var(--heading-accent),
+    rgba(0, 0, 0, 0)
+  );
+  opacity: 0.8;
+}
+
+.tool-panel-section h3 {
+  margin: 10px 0 6px 0;
+  font-size: var(--fs-h3);
+  font-weight: 850;
+  color: var(--heading);
 }
 
 .tool-panel-section p {
@@ -2038,3 +2076,100 @@ body[data-theme="light"] .road-text-label {
 .ema-results-table tr:hover td {
   background: rgba(59, 130, 246, 0.08);
 }
+
+/* ====================================================
+   Responsive Panel Density + Heading Styles
+   ==================================================== */
+
+/* Global responsive sizes (auto-scales by screen width) */
+:root {
+  --panel-pad: clamp(10px, 1.2vw, 16px);
+  --panel-gap: clamp(10px, 1.2vw, 14px);
+  --card-pad: clamp(10px, 1.1vw, 14px);
+
+  --radius-md: clamp(12px, 1.3vw, 18px);
+  --radius-sm: clamp(10px, 1.2vw, 14px);
+
+  --border-w: clamp(1px, 0.12vw, 1.5px);
+
+  --fs-body: clamp(12px, 0.95vw, 13.5px);
+  --fs-muted: clamp(11px, 0.9vw, 12.5px);
+  --fs-h2: clamp(15px, 1.25vw, 18px);
+  --fs-h3: clamp(13px, 1.1vw, 15px);
+
+  /* Heading colors (will be overridden per theme below) */
+  --heading: var(--text);
+  --heading-accent: var(--accent);
+}
+
+/* Light mode heading tuning */
+body[data-theme="light"] {
+  --heading: #0f172a;
+  --heading-accent: #1d4ed8;
+}
+
+/* Dark mode heading tuning */
+body[data-theme="dark"] {
+  --heading: #eaf2ff;
+  --heading-accent: #60a5fa;
+}
+
+/* Sidebar width responsiveness */
+:root {
+  /* Slightly wider default than before */
+  --sidebar-open-width: clamp(280px, 26vw, 460px);
+}
+
+/* Normal laptop ratio (14–15") */
+@media (max-width: 1366px) {
+  :root {
+    --sidebar-open-width: min(520px, 44vw);
+  }
+}
+
+/* Smaller screens */
+@media (max-width: 1100px) {
+  :root {
+    --sidebar-open-width: min(560px, 52vw);
+  }
+}
+
+/* Very small screens (panel becomes "almost full") */
+@media (max-width: 900px) {
+  :root {
+    --sidebar-open-width: 92vw;
+  }
+}
+
+/* Panel typography + spacing */
+.tool-panel-section {
+  padding: var(--panel-pad);
+  font-size: var(--fs-body);
+}
+
+.tool-panel-section p,
+.tool-panel-section li,
+.tool-panel-section label,
+.tool-panel-section input,
+.tool-panel-section select,
+.tool-panel-section button {
+  font-size: var(--fs-body);
+}
+
+.tool-panel-section p {
+  color: var(--muted-text);
+  font-size: var(--fs-muted);
+}
+
+/* Cards/containers inside panels should match responsive density */
+.overview-card,
+.fp-card,
+.filter-dataset-card,
+.ema-results-modal,
+.filters-help,
+.filters-empty {
+  border-radius: var(--radius-md);
+  padding: var(--card-pad);
+  border-width: var(--border-w);
+}
+
