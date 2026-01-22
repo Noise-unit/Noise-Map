@@ -2121,14 +2121,14 @@ body[data-theme="dark"] {
 /* Normal laptop ratio (14–15") */
 @media (max-width: 1366px) {
   :root {
-    --sidebar-open-width: min(460px, 44vw);
+    --sidebar-open-width: min(380px, 44vw);
   }
 }
 
 /* Smaller screens */
 @media (max-width: 1100px) {
   :root {
-    --sidebar-open-width: min(460px, 52vw);
+    --sidebar-open-width: min(380px, 52vw);
   }
 }
 
@@ -2170,6 +2170,7 @@ body[data-theme="dark"] {
   padding: var(--card-pad);
   border-width: var(--border-w);
 }
+
 
 
 
